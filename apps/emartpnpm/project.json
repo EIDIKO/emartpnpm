@@ -1,0 +1,72 @@
+{
+  "name": "emartpnpm",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/emartpnpm/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/emartpnpm",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/emartpnpm/src/main.ts",
+        "tsConfig": "apps/emartpnpm/tsconfig.app.json",
+        "assets": ["apps/emartpnpm/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "emartpnpm:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "emartpnpm:build:development"
+        },
+        "production": {
+          "buildTarget": "emartpnpm:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/emartpnpm/jest.config.ts"
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/emartpnpm/Dockerfile . -t emartpnpm"
+    }
+  },
+  "tags": []
+}
