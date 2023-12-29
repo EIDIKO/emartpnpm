@@ -101,6 +101,51 @@ npx nx test emartnx-first
 ```
 
 
+# Manually add Jest configuration to your project. Follow these steps
 
+
+## STEP-1: Install Jest
+
+```bash
+
+pnpm add -D jest @nrwl/jest
+
+
+```
+
+
+## STEP-2: Create Jest Configuration File
+
+```bash
+
+module.exports = {
+  displayName: 'your-project-name',
+  preset: '@nrwl/jest/preset',
+  // Add additional Jest configuration options as needed
+};
+
+
+
+```
+
+
+## STEP-3: Update package.json Scripts:
+
+```bash
+
+"scripts": {
+  "test": "nx test your-project-name"
+}
+
+```
+
+## STEP-4: Run Tests
+
+```bash
+
+pnpm test
+
+
+```
 
 
